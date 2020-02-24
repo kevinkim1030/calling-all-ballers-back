@@ -9,11 +9,22 @@ class MessagesController < ApplicationController
     message = Message.new
   end
 
-  def create
-    message = Message.create(chatroom_id: message_params[:chatroom_id], user_id: message_params[:user_id], content: message_params[:content])
-    # user.update_attributes(user_params)
+  # def create
+  #   message = Message.create(chatroom_id: message_params[:chatroom_id], user_id: message_params[:user_id], content: message_params[:content])
+  #   # user.update_attributes(user_params)
 
-    render json: message
+  #   render json: message
+  # end
+
+  def create
+    message = Message.new(message_params)
+      # content: message_params[:content], chatroom_id: 1, user_id: 1)
+    if message.save
+      ActionCable.server.broadcast('chatroom_channel', message)
+      render json: message
+    else
+      render json: {error: 'Could not create that message'}, status: 422
+    end
   end
 
   def update

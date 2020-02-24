@@ -5001,3 +5001,6 @@ courts = [
 courts.each do |court|
   Court.create(name: court[:name], location: court[:location], lat: court[:coordinates][:lat], lng: court[:coordinates][:lng])
 end
+
+User.create(name: 'Kevin', username: 'Kevin1030', email: 'kevin.kim1030@gmail.com', password: '123')
+Chatroom.create(name: "Kevin's first chatroom", user_id: 1)
