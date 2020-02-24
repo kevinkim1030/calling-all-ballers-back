@@ -3,8 +3,8 @@ class CreateCourts < ActiveRecord::Migration[6.0]
     create_table :courts do |t|
       t.string :name
       t.string :location
-      t.integer :lat
-      t.integer :lon
+      t.float :lat 
+      t.float :lng  
 
       t.timestamps
     end
