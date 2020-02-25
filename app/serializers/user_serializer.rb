@@ -1,4 +1,6 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :name, :username, :email, :password
-  has_many :ratings, :chatrooms, :messages
+  attributes :id, :username, :email, :password
+  has_many :chatrooms
+  has_many :messages
+  has_many :ratings
 end
