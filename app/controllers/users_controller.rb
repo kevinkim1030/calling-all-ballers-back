@@ -10,10 +10,14 @@ class UsersController < ApplicationController
   end
 
   def create
-    user = User.find_or_create_by(name: user_params[:name], username: user_params[:username], email: user_params[:email], password: user_params[:password])
-    # user = User.find_or_create_by(user_params)
-
-    render json: user
+    # user = User.find_or_create_by(username: user_params[:username], email: user_params[:email], password: user_params[:password])
+    user = User.find_or_create_by(user_params)
+    # user = User.new(user_params)
+    # if user.save
+      render json: user
+    # else
+    #   render json: {error: 'Please try again'}, status: 422
+    # end
   end
 
   def update
@@ -31,6 +35,6 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.permit(:name, :username, :email, :password)
+    params.require(:user).permit(:username, :email, :password)
   end
 end
