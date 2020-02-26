@@ -13,11 +13,11 @@ class UsersController < ApplicationController
     # user = User.find_or_create_by(username: user_params[:username], email: user_params[:email], password: user_params[:password])
     user = User.find_or_create_by(user_params)
     # user = User.new(user_params)
-    # if user.save
+    if user.save
       render json: user
-    # else
-    #   render json: {error: 'Please try again'}, status: 422
-    # end
+    else
+      render json: {error: 'Please try again'}, status: 422
+    end
   end
 
   def update
