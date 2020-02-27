@@ -1,7 +1,8 @@
 class User < ApplicationRecord
   has_many :ratings
   has_many :courts, through: :ratings
-  has_many :chatrooms
+  has_many :connections
+  has_many :chatrooms, through: :connections
   has_many :messages
 
   validates :username, :email, :password, presence: true

@@ -5003,4 +5003,4 @@ courts.each do |court|
 end
 
 User.create(username: 'kevin1030', email: 'kevin.kim1030@gmail.com', password: '123')
-Chatroom.create(name: "Kevin's first chatroom", user_id: 1)
+Chatroom.create(name: "General Chat")

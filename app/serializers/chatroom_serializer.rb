@@ -1,5 +1,4 @@
 class ChatroomSerializer < ActiveModel::Serializer
-  attributes :id, :name, :user_id
+  attributes :id, :name
   has_many :messages
-  belongs_to :user
 end
