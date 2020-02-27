@@ -1,6 +1,6 @@
 class ChatroomsController < ApplicationController
   def index
-    chatrooms = Chatroom.all 
+    chatrooms = Chatroom.all
     render json: chatrooms
   end
 
@@ -9,32 +9,39 @@ class ChatroomsController < ApplicationController
   end
 
   def create
-    chatroom = Chatroom.find_or_create_by(name: chatroom_params[:name], user_id: chatroom_params[:user_id])
+    chatroom = Chatroom.find_or_create_by(name: chatroom_params[:name])
     # user.update_attributes(user_params)
-
-    render json: chatroom
+    if chatroom.save
+      serialized_data = ActiveModelSeralizers::Adapter::Json.new(
+        ChatroomSerializer.new(chatroom)
+      ).serializable_hash
+      ActionCable.server.broadcast 'chatroom_channel', serialized_data
+      # head :ok
+      render json: chatroom
+    end
   end
 
-  # def create
-  #   conversation = Conversation.new(conversation_params)
-  #   if conversation.save
-  #     serialized_data = ActiveModelSerializers::Adapter::Json.new(
-  #       ConversationSerializer.new(conversation)
-  #     ).serializable_hash
-  #     ActionCable.server.broadcast 'conversations_channel', serialized_data
-  #     head :ok
-  #   end
-  # end
-
-  def show
-    messages = Chatroom.find_by(id: params[:id]).messages.order(created_at: :desc).reverse
-  
+  def show 
+    messages = Channel.find_by(id: params[:id]).messages.order(created_at: :desc).reverse
+    users = chatroom.users
     if messages
       render json: messages
     else
       render json: {error: 'That chatroom does not exist'}, status: 404
     end
   end
+
+  # def show
+  #   chatroom = Chatroom.find_by(id: params[:id]).messages.order(created_at: :desc).reverse
+  #   messages = chatroom.messages
+  #   users = chatroom.users 
+
+  #   if messages
+  #     render json: {"messages": messages, "users": users}
+  #   else
+  #     render json: {error: 'That chatroom does not exist'}, status: 404
+  #   end
+  # end
 
   def update
     chatroom = Chatroom.find(chatroom_params[:id])
@@ -51,6 +58,6 @@ class ChatroomsController < ApplicationController
   private
 
   def chatroom_params
-    params.require(:chatroom).permit(:name, :user_id)
+    params.require(:chatroom).permit(:name)
   end
 end
