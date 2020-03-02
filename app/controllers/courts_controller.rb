@@ -16,6 +16,12 @@ class CourtsController < ApplicationController
     render json: court
   end
 
+  def show
+    court = Court.find(params[:id])
+
+    render json: court
+  end
+
   def update
     court = Court.find(court_params[:id])
     court.update(court_params)
