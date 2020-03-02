@@ -1,6 +1,6 @@
 class User < ApplicationRecord
-  has_many :ratings
-  has_many :courts, through: :ratings
+  has_many :reviews
+  has_many :courts, through: :reviews
   has_many :connections
   has_many :chatrooms, through: :connections
   has_many :messages

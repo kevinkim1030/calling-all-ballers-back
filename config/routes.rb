@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   resources :connections
   resources :messages
   resources :chatrooms
-  resources :ratings
+  resources :reviews
   resources :courts
   resources :users
 
