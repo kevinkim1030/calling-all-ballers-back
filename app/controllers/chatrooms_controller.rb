@@ -10,7 +10,6 @@ class ChatroomsController < ApplicationController
 
   def create
     chatroom = Chatroom.find_or_create_by(name: chatroom_params[:name])
-    # user.update_attributes(user_params)
     if chatroom.save
       serialized_data = ActiveModelSeralizers::Adapter::Json.new(
         ChatroomSerializer.new(chatroom)

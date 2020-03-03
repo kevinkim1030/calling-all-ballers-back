@@ -22,15 +22,17 @@ class ReviewsController < ApplicationController
   end
 
   def update
-    review = Review.find(review_params[:id])
+    review = Review.find(params[:id])
     review.update(review_params)
 
     render json: review
   end
 
   def destroy
-    review = Review.find(review_params[:id])
+    review = Review.find(params[:id])
     review.destroy
+
+    render json: review
   end
 
   private
